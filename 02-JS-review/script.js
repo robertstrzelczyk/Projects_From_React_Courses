@@ -143,50 +143,72 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-// Destruktyryzacja
-const book = getBook(2);
+const books = getBooks();
 
-const {
-  id,
-  title,
-  author,
-  publicationDate,
-  genres,
-  hasMovieAdaptation,
-  pages,
-} = book;
-console.log(id, title, author, publicationDate, genres, hasMovieAdaptation);
+const titles = books.map((book) => book.title);
+titles;
 
-const [primaryGenre, secondaryGenre] = genres;
-console.log(primaryGenre, secondaryGenre);
+const booksData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+}));
+booksData;
 
-/// operator reszty
-const [...allGenres] = genres;
-console.log(...allGenres);
+const bigBooks = books.filter((x) => x.pages > 500 && x.hasMovieAdaptation);
+bigBooks;
 
-/// spread (rozpowszechnienie)
+const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
+pagesAllBooks;
 
-const newGenres = [...genres, "testowy gatunek"];
-console.log(newGenres);
+const arrayPages = books.map((x) => x.pages);
+arrayPages;
 
-const updatedBook = {
-  ...book,
-  moviePublicationDate: "2001-03-01",
-  pages: 1000,
+const sortedAsc = arrayPages.sort((a, b) => a - b);
+sortedAsc;
+
+const sortedDesc = arrayPages.sort((a, b) => b - a);
+sortedDesc;
+
+const sortedByPages = books.slice().sort((a, b) => a.pages - b.pages);
+sortedByPages;
+
+// Add new book
+
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J. K. Rowling",
 };
-updatedBook;
 
-/// ciągi zawierające zmienne
+const booksAfterAdd = [...books, newBook];
+booksAfterAdd;
 
-const summary = `${title} is a book, was written by ${author}, has ${pages} page`;
-console.log(summary);
+// Delete new book
 
-console.log(true && "proba");
-console.log(false && "proba");
-console.log(true || "proba");
-console.log(false || "proba");
-console.log(undefined || "proba");
-const count = book.reviews.librarything.reviewsCount || "no data"; // reviewsCount = 0
-count;
-const count1 = book.reviews.librarything.reviewsCount ?? "no data";
-count1;
+const booksAfterDeleted = booksAfterAdd.filter((x) => x.id != 6);
+booksAfterDeleted;
+
+// Update book
+
+const booksAfterUpdate = booksAfterDeleted.map((x) =>
+  x.id === 1 ? { ...x, pages: 1210 } : x
+);
+booksAfterUpdate;
+
+// promise
+fetch("https://jsonplaceholder.typicode.com/todos")
+  .then((res) => res.json())
+  .then((result) => console.log(result));
+
+// async
+
+async function getTodos() {
+  const result = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = result.json();
+  console.log(data);
+
+  return data;
+}
+
+const todos = getTodos();
+console.log(todos);
