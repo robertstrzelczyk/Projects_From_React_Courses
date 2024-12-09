@@ -2,6 +2,39 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 
+const skillsList = [
+  {
+    skill: "HTML + CSS",
+    level: "advanced",
+    color: "#0000ff",
+  },
+  {
+    skill: "JavaScript",
+    level: "advanced",
+    color: "#ffff00",
+  },
+  {
+    skill: "Web design",
+    level: "advanced",
+    color: "#99ff66",
+  },
+  {
+    skill: "Git and GitHub",
+    level: "intermediate",
+    color: "#cc00ff",
+  },
+  {
+    skill: "C#",
+    level: "advanced",
+    color: "#ffff00",
+  },
+  {
+    skill: "React in the future",
+    level: "beginner",
+    color: "#00ffff",
+  },
+];
+
 function App() {
   return (
     <div className="card">
@@ -13,32 +46,7 @@ function App() {
         computer games."
         />
         <div className="skill-list">
-          <SkillList
-            name="HTML + CSS"
-            emoticon="💪"
-            backgroundColor="#0000ff"
-          />
-          <SkillList
-            name="JavaScript"
-            emoticon="💪"
-            backgroundColor="#ffff00"
-          />
-          <SkillList
-            name="Web design"
-            emoticon="💪"
-            backgroundColor="#99ff66"
-          />
-          <SkillList name="C#" emoticon="💪" backgroundColor="#ff3300" />
-          <SkillList
-            name="Git and GitHub"
-            emoticon="💪"
-            backgroundColor="#cc00ff"
-          />
-          <SkillList
-            name="React in the future"
-            emoticon="😂"
-            backgroundColor="#00ffff"
-          />
+          <SkillList />
         </div>
       </div>
     </div>
@@ -66,11 +74,40 @@ function Intro(props) {
   );
 }
 
-function SkillList(props) {
+function SkillList() {
+  const skills = skillsList;
+  console.log(skills);
   return (
-    <p className="skill" style={{ backgroundColor: props.backgroundColor }}>
-      {props.name} {props.emoticon}
-    </p>
+    <ul className="skill-list">
+      {skills.map((p) => (
+        <Skill skillObj={p}></Skill>
+      ))}
+    </ul>
+  );
+}
+
+function Skill({ skillObj }) {
+  return (
+    <li className="skill">
+      <div>
+        <p style={{ backgroundColor: skillObj.color }}>
+          {skillObj.skill}
+          {skillObj.level === "advanced" ? (
+            <>💪</>
+          ) : skillObj.level === "intermediate" ? (
+            <>👍</>
+          ) : (
+            <>😂</>
+          )}
+          {/* 
+           drugi sposób na wyświetlanie emotikonów jest użycie operatora końcowego
+           <span>{skillObj.level === "advanced" && "💪"}
+           <span>{skillObj.level === "intermediate" && "👍"}
+           <span>{skillObj.level === "beginner" && "😂"}
+          */}
+        </p>
+      </div>
+    </li>
   );
 }
 
